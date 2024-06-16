@@ -1,0 +1,33 @@
+﻿<Window x:Class="thesquadgui.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:thesquadgui"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Name="Team1Player1" Text="Team 1 - Player 1:" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Name="Team1Player2" Text="Team 1 - Player 2:" />
+        <TextBlock Grid.Row="2" Grid.Column="0" Name="Team1Player3" Text="Team 1 - Player 3:" />
+        <TextBlock Grid.Row="3" Grid.Column="0" Name="Team1Player4" Text="Team 1 - Player 4:" />
+        <TextBlock Grid.Row="4" Grid.Column="0" Name="Team1Player5" Text="Team 1 - Player 5:" />
+
+        <TextBlock Grid.Row="0" Grid.Column="1" Name="Team2Player1" Text="Team 2 - Player 1:" />
+        <TextBlock Grid.Row="1" Grid.Column="1" Name="Team2Player2" Text="Team 2 - Player 2:" />
+        <TextBlock Grid.Row="2" Grid.Column="1" Name="Team2Player3" Text="Team 2 - Player 3:" />
+        <TextBlock Grid.Row="3" Grid.Column="1" Name="Team2Player4" Text="Team 2 - Player 4:" />
+        <TextBlock Grid.Row="4" Grid.Column="1" Name="Team2Player5" Text="Team 2 - Player 5:" />
+    </Grid>
+</Window>
