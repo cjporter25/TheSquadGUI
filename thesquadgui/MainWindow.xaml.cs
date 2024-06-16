@@ -89,6 +89,10 @@ namespace thesquadgui
                 try
                 {
                     string response = await GetClientState_ChampSelect(port, password, certPath);
+                    if (pollCount == 0)
+                    {
+                        Debug.WriteLine(PrettyPrintJson(response));
+                    }
                     Debug.WriteLine("SUCCESS - Retrieved champ select state...");
                     ChampSelectSession? champSelect = JsonSerializer.Deserialize<ChampSelectSession>(response);
                     if (champSelect != null)
@@ -98,31 +102,37 @@ namespace thesquadgui
                         List<Player>? myTeam = champSelect.myTeam;
                         List<Player>? theirTeam = champSelect.theirTeam;
 
-                        Debug.WriteLine("My Team: ");
-                        if (myTeam != null)
+                        if(myTeam != null && theirTeam != null)
                         {
-                            foreach (var player in myTeam)
-                            {
-                                Debug.WriteLine($"{player.championId}");
-                            }
-                        }
-                        Debug.WriteLine("Enemy Team: ");
-                        if (theirTeam != null)
-                        {
-                            foreach (var player in theirTeam)
-                            {
-                                Debug.WriteLine($"{player.championId}");
-                            }
+                            PrintTeams(myTeam, theirTeam);  
                         }
                     }
                 }
                 catch (JsonException ex)
                 {
-                    Debug.WriteLine($"JSON Exception: {ex.Message}");
+                    Debug.WriteLine($"FAILURE: Json retrieval failed or champ select has finished: {ex.Message}");
+                    Environment.Exit(1);
                 }
                 await Task.Delay(1000); // Delay for 1 second (1000 milliseconds)
                 pollCount++;
                 Debug.WriteLine(pollCount);
+            }
+        }
+        public void PrintTeams(List<Player> myTeam, List<Player> theirTeam)
+        {
+            Debug.WriteLine("My Team:       Enemy Team:");
+            for (int i = 0; i < 5; i++)
+            {
+                // Ternary Operator: "condition ? value_if_true : value_if_false"
+                //     1. IF "i" is less than the team's size
+                //          a. Pull that indexes championID, and convert to string
+                //     2. ELSE: "i" is greater than or equal to the team's size
+                //          a. Return an empty string
+                string myTeamPlayer = i < myTeam.Count ? myTeam[i].championId.ToString() : string.Empty;
+                string theirTeamPlayer = i < theirTeam.Count ? theirTeam[i].championId.ToString() : string.Empty;
+
+                // Print the players side by side with formatting
+                Debug.WriteLine($"{myTeamPlayer,-15} {theirTeamPlayer}");
             }
         }
         private async Task<(string, string)> GetLiveClientConfig()
@@ -161,6 +171,7 @@ namespace thesquadgui
         public async Task<string> GetClientState_ChampSelect(string port, string password, string certPath)
         {
             // Construct the base URL for the LCU API
+            //  127.0.0.1 is LocalHost
             string baseUrl = $"https://127.0.0.1:{port}";
             Console.WriteLine("Base URL: " + baseUrl);
 
@@ -186,6 +197,10 @@ namespace thesquadgui
             // Endpoint to get current champion select session details
             string endpoint = "/lol-champ-select/v1/session";
 
+            return await GetEndpoint(client, baseUrl, endpoint);
+        }
+        public async Task<string> GetEndpoint(HttpClient client, string baseUrl, string endpoint)
+        {
             try
             {
                 HttpResponseMessage response = await client.GetAsync(baseUrl + endpoint);
