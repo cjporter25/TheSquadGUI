@@ -2,15 +2,15 @@
 using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Collections.Generic;
-using System.Net.Security;
+using System.Runtime.CompilerServices;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.IO;
-using System.Diagnostics; // To be able to print out console shit in a WPF app
 using System.Xaml;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -21,6 +21,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace thesquadgui
 {
     /// <summary>
@@ -28,6 +29,38 @@ namespace thesquadgui
     /// </summary>
     public partial class MainWindow : Window
     {
+        /*
+        private string? team1Player1;
+        private string? team1Player2;
+        private string? team1Player3;
+        private string? team1Player4;
+        private string? team1Player5;
+
+        private string? team2Player1;
+        private string? team2Player2;
+        private string? team2Player3;
+        private string? team2Player4;
+        private string? team2Player5;
+
+        public string? Team1Player1 { get => team1Player1; set { team1Player1 = value; OnPropertyChanged(); } }
+        public string? Team1Player2 { get => team1Player2; set { team1Player2 = value; OnPropertyChanged(); } }
+        public string? Team1Player3 { get => team1Player3; set { team1Player3 = value; OnPropertyChanged(); } }
+        public string? Team1Player4 { get => team1Player4; set { team1Player4 = value; OnPropertyChanged(); } }
+        public string? Team1Player5 { get => team1Player5; set { team1Player5 = value; OnPropertyChanged(); } }
+
+        public string? Team2Player1 { get => team2Player1; set { team2Player1 = value; OnPropertyChanged(); } }
+        public string? Team2Player2 { get => team2Player2; set { team2Player2 = value; OnPropertyChanged(); } }
+        public string? Team2Player3 { get => team2Player3; set { team2Player3 = value; OnPropertyChanged(); } }
+        public string? Team2Player4 { get => team2Player4; set { team2Player4 = value; OnPropertyChanged(); } }
+        public string? Team2Player5 { get => team2Player5; set { team2Player5 = value; OnPropertyChanged(); } }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string? name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+        */
+
         public MainWindow()
         {
             Debug.WriteLine("Initializing Component...");
@@ -128,8 +161,31 @@ namespace thesquadgui
                 //          a. Pull that indexes championID, and convert to string
                 //     2. ELSE: "i" is greater than or equal to the team's size
                 //          a. Return an empty string
-                string myTeamPlayer = i < myTeam.Count ? myTeam[i].championId.ToString() : string.Empty;
-                string theirTeamPlayer = i < theirTeam.Count ? theirTeam[i].championId.ToString() : string.Empty;
+                string? myTeamPlayer = i < myTeam.Count ? myTeam[i].championId.ToString() : string.Empty;
+                string? theirTeamPlayer = i < theirTeam.Count ? theirTeam[i].championId.ToString() : string.Empty;
+                switch (i)
+                {
+                    case 0:
+                        Team1Player1.Text = myTeamPlayer;
+                        Team2Player1.Text = theirTeamPlayer;
+                        break;
+                    case 1:
+                        Team1Player2.Text = myTeamPlayer;
+                        Team2Player2.Text = theirTeamPlayer;
+                        break;
+                    case 2:
+                        Team1Player3.Text = myTeamPlayer;
+                        Team2Player3.Text = theirTeamPlayer;
+                        break;
+                    case 3:
+                        Team1Player4.Text = myTeamPlayer;
+                        Team2Player4.Text = theirTeamPlayer;
+                        break;
+                    case 4:
+                        Team1Player5.Text = myTeamPlayer;
+                        Team2Player5.Text = theirTeamPlayer;
+                        break;
+                }
 
                 // Print the players side by side with formatting
                 Debug.WriteLine($"{myTeamPlayer,-15} {theirTeamPlayer}");
